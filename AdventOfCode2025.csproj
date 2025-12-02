@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.0" />
     <PackageReference Include="Spectre.Console.Cli" Version="0.53.1" />
   </ItemGroup>
@@ -17,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Assets\Data\Day2\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

@@ -37,9 +37,12 @@ internal class SolveCommand : AsyncCommand<SolveCommand.Settings>
                         return 1;
                 }
             }
-            catch (Exception ex)
+            catch (FormatException ex)
             {
                 AnsiConsole.MarkupLine($"[red]An error occurred while solving the problem:[/] {ex.Message}");
+#if DEBUG
+                                AnsiConsole.MarkupLine($"[red]{ex.StackTrace}[/]");
+#endif
                 return 1;
             }
             
