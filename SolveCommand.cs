@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,6 +11,7 @@ using Spectre.Console.Cli;
 
 namespace AdventOfCode2025;
 
+[Description("Solves a specific day's Advent of Code 2025 challenge")]
 internal class SolveCommand : AsyncCommand<SolveCommand.Settings>
 {
     public override async Task<int> ExecuteAsync(CommandContext context, Settings settings, CancellationToken cancellationToken)

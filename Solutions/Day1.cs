@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.FileProviders;
@@ -53,7 +52,6 @@ internal class Day1 : ISolution
                 value = -value;
             if (_isTesting)
                 AnsiConsole.Markup($"Rotating {(value < 0 ? "Left" : "Right")} [cyan]{Math.Abs(value)}[/] units ");
-            //currentNumber = Wrap(currentNumber, value, 100, out int zeros);
             currentNumber = BruteForceWrap(currentNumber, value, 0, 99, out int zeros);
             zerosCount += zeros;
             if (_isTesting)
@@ -67,15 +65,15 @@ internal class Day1 : ISolution
     }
     // Stolen from StackOverflow. I'll have to rewrite this later, all my own attempts wielded incorrect results and i couldn't figure out why,
     // despite the function itself being extremely simple in convept.
-    public int Wrap(int value, int modulo)
+    public static int Wrap(int value, int modulo)
     {
         int remainder = (value % modulo);
         return (remainder < 0) ? (modulo + remainder) : remainder;
     }
     // This is so fucking disgusting. I really need to up my math game so i don't need to resort to this kind of stuff.
-    public int Wrap(int value, int rotation, int modulo, out int timesWrappedPast0)
+    public static int Wrap(int value, int rotation, int modulo, out int timesWrappedPast0)
     {
-        int remainder = ((value + rotation) % modulo);
+        int remainder = (value + rotation) % modulo;
         var wrapped = (remainder < 0) ? (modulo + remainder) : remainder;
         timesWrappedPast0 = Math.Abs(((value + rotation) - wrapped) / modulo);
         if(timesWrappedPast0 > 0 && (wrapped == 0 || value == 0))
@@ -83,7 +81,7 @@ internal class Day1 : ISolution
         return wrapped;
     }
     // For now i'll use this, but it'll help me understand why my math attempts failed.
-    public int BruteForceWrap(int value, int rotation, int min, int max, out int zeros)
+    public static int BruteForceWrap(int value, int rotation, int min, int max, out int zeros)
     {
         int actions = Math.Abs(rotation);
         int zerosCount = 0;

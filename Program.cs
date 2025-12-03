@@ -28,9 +28,9 @@ internal class Program
         app.Configure(config =>
         {
             config.AddCommand<SolveCommand>("solve")
-                .WithDescription("Solve a specific Advent of Code 2025 puzzle")
                 .WithExample(["solve", "1"])
                 .WithExample(["solve", "15", "2"]);
+            config.AddCommand<ListCommand>("list");
         });
         await app.RunAsync(args);
     }
