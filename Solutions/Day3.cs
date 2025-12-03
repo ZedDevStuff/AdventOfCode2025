@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.FileProviders;
@@ -44,6 +45,7 @@ internal class Day3 : ISolution
         AnsiConsole.MarkupLine($"[green]Answer:[/] The total output joltage is: {total}");
     }
     // I think i actually loved this one
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static long GetLargest(string bank, int length)
     {
         int[] indices = new int[length];

@@ -34,9 +34,9 @@ internal partial class Day2 : ISolution
     // I have been enlightened by the power of regex. My previous solution in *theory* did the same thing
     // but it was so overengineered that i didn't even know why it didn't work on my actual input.
     [GeneratedRegex(@"^(\d+)\1$", RegexOptions.Compiled)]
-    private static partial Regex RepeatRegex();
+    public static partial Regex RepeatRegex();
     [GeneratedRegex(@"^(\d+)\1+$", RegexOptions.Compiled)]
-    private static partial Regex RepeatMultipleRegex();
+    public static partial Regex RepeatMultipleRegex();
     public async Task SolvePart1()
     {
         long total = 0;
