@@ -2,19 +2,19 @@
   "profiles": {
     "Test part 1": {
       "commandName": "Project",
-      "commandLineArgs": "solve 2 1 -t"
+      "commandLineArgs": "solve 3 1 -t"
     },
     "Test part 2": {
       "commandName": "Project",
-      "commandLineArgs": "solve 2 2 -t"
+      "commandLineArgs": "solve 3 2 -t"
     },
     "Part 1": {
       "commandName": "Project",
-      "commandLineArgs": "solve 2 1"
+      "commandLineArgs": "solve 3 1"
     },
     "Part 2": {
       "commandName": "Project",
-      "commandLineArgs": "solve 2 2"
+      "commandLineArgs": "solve 3 2"
     }
   }
 }
