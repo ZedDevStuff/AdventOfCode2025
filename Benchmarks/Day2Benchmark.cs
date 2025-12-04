@@ -12,7 +12,7 @@ public class Day2Benchmark : IBenchmarkedSolution
     [Benchmark, IterationSetup(Targets = [nameof(Part1), nameof(Part2)])]
     public void Setup()
     {
-        ManifestEmbeddedFileProvider files = new(typeof(Day1Benchmark).Assembly, "Assets/Data/Day2");
+        ManifestEmbeddedFileProvider files = new(typeof(IBenchmarkedSolution).Assembly, "Assets/Data/Day2");
         string[] ranges = files.GetFileInfo("input.txt").CreateReadStream().ReadToEnd().Split(',');
         List<Solutions.Day2.Range> tempRanges = [];
         foreach (var range in ranges)

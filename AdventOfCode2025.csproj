@@ -21,6 +21,7 @@
     <Folder Include="Assets\Data\Day1\" />
     <Folder Include="Assets\Data\Day2\" />
     <Folder Include="Assets\Data\Day3\" />
+    <Folder Include="Assets\Data\Day4\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 
