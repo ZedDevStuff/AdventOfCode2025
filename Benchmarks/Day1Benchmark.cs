@@ -4,6 +4,7 @@ using Microsoft.Extensions.FileProviders;
 
 namespace AdventOfCode2025.Benchmarks;
 
+[InvocationCount(1, 1)]
 public class Day1Benchmark : IBenchmarkedSolution
 {
     private string[] _lines = [];

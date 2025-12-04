@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Options;
-
-using Spectre.Console;
 
 namespace AdventOfCode2025.Benchmarks;
 
+[InvocationCount(1, 1)]
 public class Day3Benchmark : IBenchmarkedSolution
 {
     private string[] _banks = [];

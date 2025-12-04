@@ -6,6 +6,7 @@ using Microsoft.Extensions.FileProviders;
 
 namespace AdventOfCode2025.Benchmarks;
 
+[InvocationCount(1, 1)]
 public class Day2Benchmark : IBenchmarkedSolution
 {
     private Solutions.Day2.Range[] _ranges = [];

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 
 using Microsoft.Extensions.FileProviders;
 
-using Spectre.Console;
-
 namespace AdventOfCode2025.Benchmarks;
 
+[InvocationCount(1, 1)]
 public class Day4Benchmark : IBenchmarkedSolution
 {
     private char[][] _grid;
@@ -34,16 +29,9 @@ public class Day4Benchmark : IBenchmarkedSolution
     {
         int total = 0;
         for (int y = 0; y < _grid.Length; y++)
-        {
             for (int x = 0; x < _grid[y].Length; x++)
-            {
                 if (_grid[y][x] == '@' && Solutions.Day4.CheckSurroundings(_grid, y, x) < 4)
-                {
-                    AnsiConsole.MarkupLine($"[yellow]Found accessible roll at ({y},{x})[/]");
                     total++;
-                }
-            }
-        }
         return total;
     }
     [Benchmark]
@@ -55,17 +43,13 @@ public class Day4Benchmark : IBenchmarkedSolution
         {
             isDone = true;
             for (int y = 0; y < _grid.Length; y++)
-            {
                 for (int x = 0; x < _grid[y].Length; x++)
-                {
                     if (_grid[y][x] == '@' && Solutions.Day4.CheckSurroundings(_grid, y, x) < 4)
                     {
                         _grid[y][x] = '.';
                         isDone = false;
                         total++;
                     }
-                }
-            }
         }
         return total;
     }

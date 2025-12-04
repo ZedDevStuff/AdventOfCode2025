@@ -36,16 +36,12 @@ internal class Day4 : ISolution
     {
         int total = 0;
         for (int y = 0; y < _grid.Length; y++)
-        {
             for(int x = 0; x < _grid[y].Length; x++)
-            {
                 if(_grid[y][x] == '@' && CheckSurroundings(_grid, y, x) < 4)
                 {
                     AnsiConsole.MarkupLine($"[yellow]Found accessible roll at ({y},{x})[/]");
                     total++;
                 }
-            }
-        }
         AnsiConsole.MarkupLine($"[green]Answer:[/] The total number of paper rolls with less than 4 surrounding rolls is {total}.");
     }
 
@@ -60,9 +56,7 @@ internal class Day4 : ISolution
             if(_isTesting)
                 AnsiConsole.MarkupLine($"[blue]--- Pass {pass} ---[/]");
             for (int y = 0; y < _grid.Length; y++)
-            {
                 for (int x = 0; x < _grid[y].Length; x++)
-                {
                     if (_grid[y][x] == '@' && CheckSurroundings(_grid, y, x) < 4)
                     {
                         if(_isTesting)
@@ -71,8 +65,6 @@ internal class Day4 : ISolution
                         isDone = false;
                         total++;
                     }
-                }
-            }
             pass++;
         }
         AnsiConsole.MarkupLine($"[green]Answer:[/] The total number of paper rolls that can be removed is {total}.");
@@ -84,7 +76,6 @@ internal class Day4 : ISolution
         int rows = grid.Length;
         int cols = grid[0].Length;
         for (int i = -1; i <= 1; i++)
-        {
             for (int j = -1; j <= 1; j++)
             {
                 if (i == 0 && j == 0)
@@ -97,7 +88,6 @@ internal class Day4 : ISolution
                         count++;
                 }
             }
-        }
         return count;
     }
 }
