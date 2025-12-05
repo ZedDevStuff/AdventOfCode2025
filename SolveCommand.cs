@@ -18,8 +18,8 @@ internal class SolveCommand : AsyncCommand<SolveCommand.Settings>
     {
         if(Program.Days.TryGetValue(settings.Day, out var solution))
         {
-            try
-            {
+            //try
+            //{
                 switch (settings.Part)
                 {
                     case 1:
@@ -34,15 +34,15 @@ internal class SolveCommand : AsyncCommand<SolveCommand.Settings>
                         Console.WriteLine($"Part {settings.Part} is not valid. Choose 1 or 2.");
                         return 1;
                 }
-            }
-            catch (FormatException ex)
-            {
-                AnsiConsole.MarkupLine($"[red]An error occurred while solving the problem:[/] {ex.Message}");
-#if DEBUG
-                                AnsiConsole.MarkupLine($"[red]{ex.StackTrace}[/]");
-#endif
-                return 1;
-            }
+//            }
+//            catch (FormatException ex)
+//            {
+//                AnsiConsole.MarkupLine($"[red]An error occurred while solving the problem:[/] {ex.Message}");
+//#if DEBUG
+//                                AnsiConsole.MarkupLine($"[red]{ex.StackTrace}[/]");
+//#endif
+//                return 1;
+//            }
             
             return 0;
         }

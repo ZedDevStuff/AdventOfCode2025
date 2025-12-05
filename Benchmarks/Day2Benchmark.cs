@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using AdventOfCode2025.Solutions.Misc;
+
 using BenchmarkDotNet.Attributes;
 
 using Microsoft.Extensions.FileProviders;
@@ -9,17 +11,17 @@ namespace AdventOfCode2025.Benchmarks;
 [InvocationCount(1, 1)]
 public class Day2Benchmark : IBenchmarkedSolution
 {
-    private Solutions.Day2.Range[] _ranges = [];
+    private Range[] _ranges = [];
     [Benchmark, IterationSetup(Targets = [nameof(Part1), nameof(Part2)])]
     public void Setup()
     {
         ManifestEmbeddedFileProvider files = new(typeof(IBenchmarkedSolution).Assembly, "Assets/Data/Day2");
         string[] ranges = files.GetFileInfo("input.txt").CreateReadStream().ReadToEnd().Split(',');
-        List<Solutions.Day2.Range> tempRanges = [];
+        List<Range> tempRanges = [];
         foreach (var range in ranges)
         {
             var parts = range.Split('-');
-            tempRanges.Add(new Solutions.Day2.Range(long.Parse(parts[0]), long.Parse(parts[1])));
+            tempRanges.Add(new Range(long.Parse(parts[0]), long.Parse(parts[1])));
         }
         _ranges = [.. tempRanges];
     }

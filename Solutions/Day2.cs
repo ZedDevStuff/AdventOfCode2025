@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.FileProviders;
 
 using Spectre.Console;
+
+using Range = AdventOfCode2025.Solutions.Misc.Range;
 
 namespace AdventOfCode2025.Solutions;
 
@@ -55,20 +53,5 @@ internal partial class Day2 : ISolution
                 if (RepeatMultipleRegex().IsMatch(i.ToString()))
                     total += i;
         AnsiConsole.MarkupLine($"[green]Answer:[/] The sum of all invalid IDs is: {total}");
-    }
-
-    public struct Range(long start, long end)
-    {
-        public long Start = start;
-        public long End = end;
-
-        public readonly bool IsWithinInclusive(long number)
-        {
-            return number <= End && number >= Start;
-        }
-        public readonly bool IsWithinExclusive(long number)
-        {
-            return number < End && number > Start;
-        }
     }
 }
