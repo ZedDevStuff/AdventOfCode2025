@@ -7,61 +7,69 @@ using Spectre.Console;
 
 namespace AdventOfCode2025.Solutions;
 
-internal class Day1 : ISolution
+internal class Day1 : IDay
 {
     public int Day { get; } = 1;
     public string Name { get; } = "Day 1: Secret Entrance";
-    private bool _isTesting = false;
-    private string[] _lines = [];
+    public string Part1Template { get; } = "[green]Part 1:[/] The number of times we land on 0 is {0}.";
+    public string Part2Template { get; } = "[green]Part 2:[/] The number of clicks (land on 0 or wrap past 0) is {0}.";
 
-    public async Task Setup(ManifestEmbeddedFileProvider files, bool isTesting)
+    public object ParsePart1(string input)
     {
-        _isTesting = isTesting;
-        _lines = files.GetFileInfo(isTesting ? "test.txt" : "input.txt").CreateReadStream().ReadLines();
+        return input.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+    }
+    public object ParsePart2(string input)
+    {
+        return input.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
     }
 
-    public async Task SolvePart1()
+
+    public object SolvePart1(object input)
     {
+        string[] lines = (string[])input;
         int currentNumber = 50;
         int zerosCount = 0;
-        foreach (string line in _lines)
+        foreach (string line in lines)
         {
             int value = int.Parse(line[1..]);
             if (line[0] == 'L')
                 value = -value;
-            if (_isTesting)
-                AnsiConsole.Markup($"Rotating {(value < 0 ? "Left" : "Right")} [cyan]{Math.Abs(value)}[/] units ");
+#if DEBUG
+            AnsiConsole.Markup($"Rotating {(value < 0 ? "Left" : "Right")} [cyan]{Math.Abs(value)}[/] units ");
+#endif
             currentNumber = Wrap(currentNumber + value, 100);
-            if (_isTesting)
-                AnsiConsole.Markup($"(now [green]{currentNumber}[/])\n");
+#if DEBUG
+            AnsiConsole.Markup($"(now [green]{currentNumber}[/])\n");
+#endif
             if (currentNumber == 0)
                 zerosCount++;
         }
-        AnsiConsole.MarkupLine($"[green]Answer:[/] The number of times we land on 0 is {zerosCount}.");
-        
+        return zerosCount;
     }
 
-    public async Task SolvePart2()
+    public object SolvePart2(object input)
     {
+        string[] lines = (string[])input;
         int currentNumber = 50;
         int zerosCount = 0;
-        foreach (string line in _lines)
+        foreach (string line in lines)
         {
             int value = int.Parse(line[1..]);
             if (line[0] == 'L')
                 value = -value;
-            if (_isTesting)
-                AnsiConsole.Markup($"Rotating {(value < 0 ? "Left" : "Right")} [cyan]{Math.Abs(value)}[/] units ");
+#if DEBUG
+            AnsiConsole.Markup($"Rotating {(value < 0 ? "Left" : "Right")} [cyan]{Math.Abs(value)}[/] units ");
+#endif
             currentNumber = BruteForceWrap(currentNumber, value, 0, 99, out int zeros);
             zerosCount += zeros;
-            if (_isTesting)
-                AnsiConsole.Markup($"(wrapped past 0 [yellow]{zeros}[/] time(s)) ");
-            if (_isTesting)
-                AnsiConsole.Markup($"(now [green]{currentNumber}[/])\n");
+#if DEBUG
+            AnsiConsole.Markup($"(wrapped past 0 [yellow]{zeros}[/] time(s)) ");
+            AnsiConsole.Markup($"(now [green]{currentNumber}[/])\n");
+#endif
             if (currentNumber == 0)
                 zerosCount++;
         }
-        AnsiConsole.MarkupLine($"[green]Answer:[/] The number of clicks (land on 0 or wrap past 0) is {zerosCount}.");
+        return zerosCount;
     }
     // Stolen from StackOverflow. I'll have to rewrite this later, all my own attempts wielded incorrect results and i couldn't figure out why,
     // despite the function itself being extremely simple in convept.

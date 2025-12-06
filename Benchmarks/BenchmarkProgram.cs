@@ -21,7 +21,7 @@ internal class BenchmarkProgram
         }
         try
         {
-            Type? dayBenchmark = Type.GetType($"AdventOfCode2025.Benchmarks.Day{day}Benchmark");
+            Type? dayBenchmark = Type.GetType($"AdventOfCode2025.Benchmarks.Day{day}");
             if (dayBenchmark == null)
             {
                 AnsiConsole.MarkupLine($"[red]Benchmark for Day {day} not found.[/]");

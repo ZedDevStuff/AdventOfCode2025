@@ -9,65 +9,73 @@ using Spectre.Console;
 
 namespace AdventOfCode2025.Solutions;
 
-internal class Day4 : ISolution
+internal class Day4 : IDay
 {
     public int Day { get; } = 4;
     public string Name { get; } = "Printing Department";
-    private char[][] _grid;
-    private bool _isTesting = false;
+    public string Part1Template { get; } = "[green]Answer:[/] The total number of paper rolls with less than 4 surrounding rolls is {0}.";
+    public string Part2Template { get; } = "[green]Answer:[/] The total number of paper rolls that can be removed is {0}.";
 
-    public async Task Setup(ManifestEmbeddedFileProvider files, bool isTesting)
+    public object ParsePart1(string input)
     {
-        _isTesting = isTesting;
-        var lines = files.GetFileInfo(isTesting ? "test.txt" : "input.txt").CreateReadStream().ReadLines();
-        _grid = new char[lines.Length][];
+        char[][] grid = [];
+        var lines = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        grid = new char[lines.Length][];
         for (int i = 0; i < lines.Length; i++)
         {
             var line = lines[i];
-            _grid[i] = new char[line.Length];
+            grid[i] = new char[line.Length];
             for (int j = 0; j < line.Length; j++)
             {
-                _grid[i][j] = line[j];
+                grid[i][j] = line[j];
             }
         }
+        return grid;
     }
+    public object ParsePart2(string input) => ParsePart1(input);
 
-    public async Task SolvePart1()
+    public object SolvePart1(object input)
     {
+        char[][] grid = (char[][])input;
         int total = 0;
-        for (int y = 0; y < _grid.Length; y++)
-            for(int x = 0; x < _grid[y].Length; x++)
-                if(_grid[y][x] == '@' && CheckSurroundings(_grid, y, x) < 4)
+        for (int y = 0; y < grid.Length; y++)
+            for(int x = 0; x < grid[y].Length; x++)
+                if(grid[y][x] == '@' && CheckSurroundings(grid, y, x) < 4)
                 {
+#if DEBUG
                     AnsiConsole.MarkupLine($"[yellow]Found accessible roll at ({y},{x})[/]");
+#endif
                     total++;
                 }
-        AnsiConsole.MarkupLine($"[green]Answer:[/] The total number of paper rolls with less than 4 surrounding rolls is {total}.");
+        return total;
     }
 
-    public async Task SolvePart2()
+    public object SolvePart2(object input)
     {
+        char[][] grid = (char[][])input;
         int total = 0;
         int pass = 1;
         bool isDone = false;
         while (!isDone)
         {
             isDone = true;
-            if(_isTesting)
-                AnsiConsole.MarkupLine($"[blue]--- Pass {pass} ---[/]");
-            for (int y = 0; y < _grid.Length; y++)
-                for (int x = 0; x < _grid[y].Length; x++)
-                    if (_grid[y][x] == '@' && CheckSurroundings(_grid, y, x) < 4)
+#if DEBUG
+            AnsiConsole.MarkupLine($"[blue]--- Pass {pass} ---[/]");
+#endif
+            for (int y = 0; y < grid.Length; y++)
+                for (int x = 0; x < grid[y].Length; x++)
+                    if (grid[y][x] == '@' && CheckSurroundings(grid, y, x) < 4)
                     {
-                        if(_isTesting)
-                            AnsiConsole.MarkupLine($"[yellow]Removing accessible roll at at ({y},{x})[/]");
-                        _grid[y][x] = '.';
+#if DEBUG
+                        AnsiConsole.MarkupLine($"[yellow]Removing accessible roll at at ({y},{x})[/]");
+#endif
+                        grid[y][x] = '.';
                         isDone = false;
                         total++;
                     }
             pass++;
         }
-        AnsiConsole.MarkupLine($"[green]Answer:[/] The total number of paper rolls that can be removed is {total}.");
+        return total;
     }
 
     public static int CheckSurroundings(char[][] grid, int x, int y, char targetChar = '@')

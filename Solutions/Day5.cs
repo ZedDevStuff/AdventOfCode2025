@@ -11,50 +11,52 @@ using Range = AdventOfCode2025.Solutions.Misc.Range;
 
 namespace AdventOfCode2025.Solutions;
 
-internal class Day5 : ISolution
+internal class Day5 : IDay
 {
     public int Day { get; } = 5;
     public string Name { get; } = "Cafeteria";
-    private bool _isTesting;
-    private RangeCollection _ranges = null!;
-    private long[] _products = [];
-    public async Task Setup(ManifestEmbeddedFileProvider files, bool isTesting)
+    public string Part1Template { get; } = "[green]Answer:[/] The total number of fresh products in the database is {0}.";
+    public string Part2Template { get; } = "[green]Answer:[/] The total number of fresh products in the database is {0}.";
+
+    public object ParsePart1(string input)
     {
-        _isTesting = isTesting;
-        string[] sections = files.GetFileInfo(isTesting ? "test.txt" : "input.txt").CreateReadStream().ReadToEnd().Split("\r\n\r\n");
-        Range[] ranges = sections[0].Split("\r\n").Where(s => !string.IsNullOrWhiteSpace(s))
+        string[] sections = input.Split(Environment.NewLine + Environment.NewLine);
+        Range[] ranges = sections[0].Split(Environment.NewLine).Where(s => !string.IsNullOrWhiteSpace(s))
             .Select(r =>
             {
                 string[] split = r.Split('-');
                 return new Range(long.Parse(split[0]), long.Parse(split[1]));
             }).ToArray();
-        _ranges = new(ranges);
-        _products = [.. sections[1].Split('\n').Select(long.Parse)];
+        return (new RangeCollection(ranges), sections[1].Split('\n').Select(long.Parse).ToArray());
     }
+    public object ParsePart2(string input) => ParsePart1(input);
 
-    public async Task SolvePart1()
+    public object SolvePart1(object input)
     {
+        (RangeCollection ranges, long[] products) = ((RangeCollection, long[]))input;
         long total = 0;
-        foreach(var product in _products)
+        foreach(var product in products)
         {
-            if(_ranges.IsInAnyInclusive(product))
+            if(ranges.IsInAnyInclusive(product))
             {
-                if (_isTesting)
-                    AnsiConsole.MarkupLine($"[green]Product {product} is fresh[/]");
+#if DEBUG
+                AnsiConsole.MarkupLine($"[green]Product {product} is fresh[/]");
+#endif
                 total++;
             }
         }
-        AnsiConsole.MarkupLine($"[green]Answer:[/] The total number of fresh products in the database is {total}.");
+        return total;
     }
 
-    public async Task SolvePart2()
+    public object SolvePart2(object input)
     {
+        (RangeCollection ranges, _) = ((RangeCollection, long[]))input;
         long total = 0;
-        _ranges.MergeOverlapping();
-        total = _ranges.Ranges
+        ranges.MergeOverlapping();
+        total = ranges.Ranges
             .Select(r => r.Length + 1)
             .Sum();
-        AnsiConsole.MarkupLine($"[green]Answer:[/] The total number of fresh products in the database is {total}.");
+        return total;
     }
 
     public class RangeCollection

@@ -1,51 +1,50 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-
-using Microsoft.Extensions.FileProviders;
 
 using Spectre.Console;
 
 namespace AdventOfCode2025.Solutions;
 
-internal class Day3 : ISolution
+internal class Day3 : IDay
 {
     public int Day { get; } = 3;
     public string Name { get; } = "Lobby";
-    private bool _isTesting = false;
-    private string[] _banks = [];
+    public string Part1Template { get; } = "[green]Answer:[/] The total output joltage is: {0}";
+    public string Part2Template { get; } = "[green]Answer:[/] The total output joltage is: {0}";
 
-    public async Task Setup(ManifestEmbeddedFileProvider files, bool isTesting)
+    public object ParsePart1(string input)
     {
-        _isTesting = isTesting;
-        _banks = files.GetFileInfo(_isTesting ? "test.txt" : "input.txt").CreateReadStream().ReadLines();
+        return input.Split(Environment.NewLine);
     }
-    public async Task SolvePart1()
+    public object ParsePart2(string input) => input.Split(Environment.NewLine);
+    public object SolvePart1(object input)
     {
+        string[] banks = (string[])input;
         long total = 0;
-        foreach(string bank in _banks)
+        foreach(string bank in banks)
         {
             long largest = GetLargest(bank, 2);
-            if (_isTesting)
-                AnsiConsole.MarkupLine($"[yellow]Found {largest} in bank '{bank}'[/]");
+#if DEBUG
+            AnsiConsole.MarkupLine($"[yellow]Found {largest} in bank '{bank}'[/]");
+#endif
             total += largest;
         }
-        AnsiConsole.MarkupLine($"[green]Answer:[/] The total output joltage is: {total}");
+        return total;
     }
-    public async Task SolvePart2()
+    public object SolvePart2(object input)
     {
+        string[] banks = (string[])input;
         long total = 0;
-        foreach (string bank in _banks)
+        foreach (string bank in banks)
         {
             long largest = GetLargest(bank, 12);
-            if(_isTesting)
-                AnsiConsole.MarkupLine($"[yellow]Found {largest} in bank '{bank}'[/]");
+#if DEBUG
+            AnsiConsole.MarkupLine($"[yellow]Found {largest} in bank '{bank}'[/]");
+#endif
             total += largest;
         }
-        AnsiConsole.MarkupLine($"[green]Answer:[/] The total output joltage is: {total}");
+        return total;
     }
     // I think i actually loved this one
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static long GetLargest(string bank, int length)
     {
         int[] indices = new int[length];

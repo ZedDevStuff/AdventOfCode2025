@@ -15,19 +15,19 @@ namespace AdventOfCode2025;
 internal class Program
 {
     internal static ManifestEmbeddedFileProvider Files = new(typeof(Program).Assembly, "Assets/Data");
-    internal static Dictionary<int, ISolution> Days = [];
+    internal static Dictionary<int, IDay> Days = [];
     static async Task Main(string[] args)
     {
         if (args.Length > 0 && args[0] == "--benchmark")
             BenchmarkProgram.Run(args.Skip(1).ToArray());
         else
         {
-            ISolution[] solutions = typeof(Program).Assembly.GetTypes()
-                .Where(t => !t.IsInterface && t.IsAssignableTo(typeof(ISolution)))
+            IDay[] solutions = typeof(Program).Assembly.GetTypes()
+                .Where(t => !t.IsInterface && t.IsAssignableTo(typeof(IDay)) && !t.IsAbstract)
                 .OrderBy(t => t.Name)
-                .Select(t => (ISolution)Activator.CreateInstance(t)!)
+                .Select(t => (IDay)Activator.CreateInstance(t)!)
                 .ToArray()!;
-            foreach (ISolution solution in solutions)
+            foreach (IDay solution in solutions)
                 Days[solution.Day] = solution;
             CommandApp app = new();
             app.Configure(config =>

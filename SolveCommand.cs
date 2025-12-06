@@ -18,32 +18,20 @@ internal class SolveCommand : AsyncCommand<SolveCommand.Settings>
     {
         if(Program.Days.TryGetValue(settings.Day, out var solution))
         {
-            //try
-            //{
-                switch (settings.Part)
-                {
-                    case 1:
-                        await solution.Setup(new ManifestEmbeddedFileProvider(typeof(Program).Assembly, $"Assets/Data/Day{settings.Day}"), settings.IsTesting);
-                        await solution.SolvePart1();
-                        break;
-                    case 2:
-                        await solution.Setup(new ManifestEmbeddedFileProvider(typeof(Program).Assembly, $"Assets/Data/Day{settings.Day}"), settings.IsTesting);
-                        await solution.SolvePart2();
-                        break;
-                    default:
-                        Console.WriteLine($"Part {settings.Part} is not valid. Choose 1 or 2.");
-                        return 1;
-                }
-//            }
-//            catch (FormatException ex)
-//            {
-//                AnsiConsole.MarkupLine($"[red]An error occurred while solving the problem:[/] {ex.Message}");
-//#if DEBUG
-//                                AnsiConsole.MarkupLine($"[red]{ex.StackTrace}[/]");
-//#endif
-//                return 1;
-//            }
-            
+            var files = new ManifestEmbeddedFileProvider(typeof(Program).Assembly, $"Assets/Data/Day{settings.Day}");
+            string input = files.GetFileInfo(settings.IsTesting ? "test.txt" : "input.txt").CreateReadStream().ReadToEnd();
+            switch (settings.Part)
+            {
+                case 1:
+                    solution.PrintPart1Answer(input);
+                    break;
+                case 2:
+                    solution.PrintPart2Answer(input);
+                    break;
+                default:
+                    Console.WriteLine($"Part {settings.Part} is not valid. Choose 1 or 2.");
+                    return 1;
+            }
             return 0;
         }
         else
